@@ -1,2 +1,2 @@
 run:flight.c
-	gcc flight.c -o flight -lpthread
+	gcc flight.c -o flight -lpthread -o all

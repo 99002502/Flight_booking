@@ -4,11 +4,11 @@
 #include <stdio.h>
 
 /*
-This program provides a possible solution for producer-consumer problem using mutex and semaphore.
-I have used 5 producers and 5 consumers to demonstrate the solution. You can always play with these values.
+This program provides a possible solution for number of reservation and confirmation of flight tickets using mutex and semaphore.
+I have used 5 number of reservation requests and 5 number of confirmation tickets to demonstrate the solution. 
 */
 
-#define MaxItems 5 // Maximum items a producer can produce or a consumer can consume
+#define MaxItems 5 // Maximum tickets can be issued in reservation request or confirmation
 #define BufferSize 5 // Size of the buffer
 
 sem_t empty;
@@ -26,7 +26,7 @@ void *FlightReservation(void *pno)
         sem_wait(&empty);
         pthread_mutex_lock(&mutex);
         buffer[req] = item;
-        printf("No. of Flight reservation request %d:\n ", *((int*)pno));
+        printf("No. of Flight reservation request: %d\n ", *((int*)pno));
         req = (req+1)%BufferSize;
         pthread_mutex_unlock(&mutex);
         sem_post(&full);
@@ -38,7 +38,7 @@ void *FlightConfirmation(void *cno)
         sem_wait(&full);
         pthread_mutex_lock(&mutex);
         int item = buffer[conf];
-        printf("No. of Flight confirmation %d: booking at %d: \n",*((int *)cno),buffer[conf]);
+        printf("No. of Flight confirmation: %d, booking at- %d \n",*((int *)cno),buffer[conf]);
         conf = (conf+1)%BufferSize;
         pthread_mutex_unlock(&mutex);
         sem_post(&empty);
